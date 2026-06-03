@@ -1,179 +1,184 @@
 # Digital Twin-Based Reinforcement Learning Control for REMUS 100 AUV
 
-> Energy-Aware Autonomous Underwater Vehicle Control using Reinforcement Learning, Digital Twins, Physics-Based Sensor Modeling, and Real-Time Marine Environmental Data.
+> Energy-Aware Autonomous Underwater Vehicle Control using Reinforcement Learning, Digital Twin Technology, Physics-Based Sensor Modeling, and Real-Time Marine Environmental Data.
 
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2024a-orange)
-![Simulink](https://img.shields.io/badge/Simulink-Modeling-blue)
+![Simulink](https://img.shields.io/badge/Simulink-Digital%20Twin-blue)
 ![Reinforcement Learning](https://img.shields.io/badge/Reinforcement-Learning-success)
 ![PPO](https://img.shields.io/badge/PPO-Continuous%20Control-red)
 ![Digital Twin](https://img.shields.io/badge/Digital-Twin-green)
-![Research Project](https://img.shields.io/badge/Research-Marine%20Robotics-purple)
+![Marine Robotics](https://img.shields.io/badge/Marine-Robotics-purple)
+
+---
+
+# Table of Contents
+
+- Overview
+- Why This Project Matters
+- Key Features
+- System Architecture
+- Digital Twin Architecture
+- Technologies Used
+- Reinforcement Learning Framework
+- Sensor Modeling
+- Training Workflow
+- Results
+- Project Structure
+- Installation
+- Usage
+- Future Improvements
+- Patent
+- Authors
 
 ---
 
 # Overview
 
-Autonomous Underwater Vehicles (AUVs) are extensively used in oceanographic research, environmental monitoring, underwater inspection, defense applications, and offshore infrastructure maintenance. However, most conventional AUV control systems rely on fixed-parameter controllers such as PID, which often struggle in dynamic marine environments characterized by varying ocean currents, waves, turbulence, and changing environmental conditions.
+Autonomous Underwater Vehicles (AUVs) are extensively used for oceanographic research, underwater exploration, environmental monitoring, offshore inspection, and defense applications. These vehicles operate in highly dynamic underwater environments where currents, waves, turbulence, and weather conditions continuously influence navigation performance.
 
-This project presents a Digital Twin-Based Reinforcement Learning Framework for the REMUS 100 Autonomous Underwater Vehicle. The system combines high-fidelity simulation, marine environmental data, physics-based sensor modeling, and deep reinforcement learning to create an intelligent controller capable of energy-efficient navigation and adaptive decision-making.
+Traditional control methods such as PID controllers often struggle to adapt to these changing environmental conditions and frequently consume excessive energy while maintaining stability.
 
-Unlike traditional control systems, the proposed framework continuously learns how to:
+This project presents a **Digital Twin-Based Reinforcement Learning Framework** for the REMUS 100 Autonomous Underwater Vehicle. The framework integrates:
 
-- Exploit favorable ocean currents
-- Minimize propulsion energy consumption
-- Improve mission duration
-- Maintain navigation accuracy
-- Perform robust station keeping
-- Adapt to changing environmental disturbances
-- Improve sensing quality during exploration missions
+- High-Fidelity Digital Twin Modeling
+- Reinforcement Learning-Based Control
+- Real-Time Marine Environmental Data
+- Physics-Based Sensor Modeling
+- Multi-Objective Reward Optimization
 
-The project was developed using MATLAB, Simulink, Reinforcement Learning Toolbox, and Digital Twin methodologies.
+The trained agent learns how to navigate efficiently, exploit favorable ocean currents, minimize energy consumption, and maintain navigation accuracy in realistic marine environments.
 
 ---
 
-# Problem Statement
+# Why This Project Matters
 
-Current AUV control systems face several major challenges:
+Modern autonomous systems must operate intelligently in uncertain environments.
+
+Underwater vehicles face several challenges:
 
 ### Energy Constraints
 
-AUVs operate using finite onboard battery resources. Traditional controllers frequently waste energy by fighting against environmental disturbances instead of utilizing them intelligently.
+AUVs rely on limited onboard batteries.
 
-### Dynamic Ocean Conditions
+Poor control decisions can significantly reduce mission duration.
 
-Marine environments continuously change due to:
+### Dynamic Marine Conditions
 
-- Ocean Currents
-- Waves
-- Turbulence
-- Temperature Variations
-- Humidity Variations
+Ocean currents and waves continuously change.
 
-Conventional controllers struggle to adapt to these changing conditions.
+Controllers must adapt in real time.
 
 ### Sim-to-Real Gap
 
-Most reinforcement learning environments use simplified simulations that do not accurately model:
-
-- Sensor Dynamics
-- Environmental Disturbances
-- Ocean Conditions
-- Vehicle Hydrodynamics
-
-This often leads to poor real-world performance.
+Most AI models perform well in simulation but fail when deployed in real environments due to unrealistic training conditions.
 
 ### Multi-Objective Optimization
 
-Modern AUV missions require simultaneous optimization of:
+AUV missions require simultaneous optimization of:
 
 - Navigation Accuracy
-- Energy Consumption
-- Vehicle Stability
-- Sensing Performance
+- Energy Efficiency
+- Stability
+- Sensor Performance
 
-Traditional approaches cannot effectively optimize all objectives simultaneously.
+This project addresses all these challenges using a Digital Twin and Reinforcement Learning.
 
 ---
 
-# Proposed Solution
+# Key Features
 
-The proposed solution integrates:
-
-1. High-Fidelity Digital Twin
-2. Real-Time Marine Environmental Data
-3. Reinforcement Learning Controller
-4. Physics-Based Sensor Models
-5. Multi-Objective Reward Optimization
-
-The resulting system learns an adaptive control policy capable of operating efficiently in dynamic marine environments.
+- REMUS 100 Digital Twin
+- PPO-Based Reinforcement Learning Controller
+- Energy-Aware Navigation
+- Ocean Current Compensation
+- Physics-Based Sensor Modeling
+- Real-Time Environmental Data Integration
+- Multi-Objective Reward Optimization
+- Continuous Action Control
+- Sim-to-Real Transfer Pipeline
+- MATLAB & Simulink Implementation
+- Marine Robotics Application
 
 ---
 
 # System Architecture
 
-The system architecture combines simulation, environmental sensing, reinforcement learning, and autonomous control into a single closed-loop framework.
+The complete system operates as a closed-loop intelligent control framework.
 
 <p align="center">
-  <img src="Results/Top_Level_Architecture.png" width="950">
+  <img src="Results/Top_Level_Architecture.png" width="900">
 </p>
 
 ## Architecture Workflow
 
 ```text
-Marine APIs
+Environmental Data
 (Currents, Waves, Temperature)
-            │
-            ▼
- ┌─────────────────────┐
- │ Digital Twin Model  │
- └──────────┬──────────┘
-            │
-            ▼
- ┌─────────────────────┐
- │ Observation Vector  │
- └──────────┬──────────┘
-            │
-            ▼
- ┌─────────────────────┐
- │ PPO RL Agent        │
- └──────────┬──────────┘
-            │
-            ▼
- ┌─────────────────────┐
- │ Thruster & Rudder   │
- └──────────┬──────────┘
-            │
-            ▼
- ┌─────────────────────┐
- │ REMUS 100 AUV       │
- └──────────┬──────────┘
-            │
-            ▼
-      Sensor Feedback
-            │
-            └─────────────► Digital Twin
+                │
+                ▼
+       Digital Twin Model
+                │
+                ▼
+       Observation Vector
+                │
+                ▼
+        PPO RL Agent
+                │
+                ▼
+     Thruster & Rudder Commands
+                │
+                ▼
+           REMUS 100
+                │
+                ▼
+        Sensor Feedback
+                │
+                └────────────► Digital Twin
 ```
 
-The architecture operates as a closed feedback loop where the reinforcement learning agent continuously interacts with the digital twin environment and learns optimal navigation strategies.
+The reinforcement learning agent continuously interacts with the digital twin, learns from environmental feedback, and improves its navigation strategy through repeated training episodes.
 
 ---
 
 # Digital Twin Architecture
 
-The digital twin serves as a virtual representation of the REMUS 100 AUV.
+A Digital Twin is a virtual representation of a real-world system.
+
+In this project, the digital twin simulates:
+
+- Vehicle Dynamics
+- Ocean Disturbances
+- Sensor Behavior
+- Energy Consumption
+- Vehicle Navigation
 
 <p align="center">
-  <img src="Results/Digital_Twin_Architecture.jpg" width="1000">
+  <img src="Results/Digital_Twin_Architecture.jpg" width="950">
 </p>
 
-The digital twin includes:
+## Major Components
 
 ### Vehicle Dynamics Model
 
 Simulates:
 
 - Hydrodynamic Forces
-- Thruster Dynamics
 - Vehicle Motion
-- Ocean Disturbances
+- Drag Effects
+- Thruster Response
 
 ### Environmental Interface
 
-Fetches real-time data from:
-
-- Open-Meteo Marine API
-- NOAA Marine Data Services
-
-Including:
+Retrieves marine data including:
 
 - Ocean Currents
-- Waves
-- Temperature
-- Humidity
+- Wave Information
+- Water Conditions
+- Environmental Variables
 
-### Sensor Models
+### Sensor Layer
 
-Simulates realistic sensor outputs from:
+Provides simulated outputs for:
 
 - IMU
 - DVL
@@ -183,7 +188,7 @@ Simulates realistic sensor outputs from:
 
 ### Observation Assembly
 
-Combines all vehicle states, environmental variables, and sensor measurements into a reinforcement learning observation vector.
+Combines all system states and sensor measurements into a reinforcement learning observation vector.
 
 ---
 
@@ -191,167 +196,192 @@ Combines all vehicle states, environmental variables, and sensor measurements in
 
 ## MATLAB
 
-MATLAB serves as the primary development environment.
+MATLAB serves as the primary computational platform.
 
 Used for:
 
 - Mathematical Modeling
 - Data Processing
-- Reinforcement Learning Training
+- RL Training
+- Performance Evaluation
 - Visualization
+
+### Why MATLAB?
+
+MATLAB provides a rich ecosystem for robotics, control systems, optimization, and machine learning.
 
 ---
 
 ## Simulink
 
-Simulink provides the simulation environment used to build the digital twin.
+Simulink provides a graphical environment for modeling complex engineering systems.
 
 Used for:
 
-- Vehicle Dynamics Modeling
+- Vehicle Dynamics Simulation
 - Sensor Simulation
 - Environmental Modeling
-- Control System Integration
+- Digital Twin Construction
+
+### Why Simulink?
+
+It allows engineers to visualize and test complex systems before physical deployment.
 
 ---
 
-## Reinforcement Learning Toolbox
+## Digital Twin Technology
 
-Used for:
+A Digital Twin is a virtual replica of a physical asset.
 
-- PPO Agent Training
-- Policy Optimization
-- Actor-Critic Networks
-- Continuous Control
+### Benefits
 
----
-
-## Deep Learning Toolbox
-
-Used for:
-
-- Neural Network Construction
-- Policy Networks
-- Value Function Approximation
+- Safe Training Environment
+- Reduced Development Cost
+- Faster Experimentation
+- Improved System Understanding
+- Better Sim-to-Real Transfer
 
 ---
 
-## Marine APIs
+## Reinforcement Learning
 
-Real-world marine data is obtained using:
+Reinforcement Learning enables an agent to learn through interaction with an environment.
+
+Unlike traditional controllers that follow fixed rules, RL agents learn optimal behaviors through experience.
+
+### Benefits
+
+- Adaptability
+- Continuous Learning
+- Autonomous Decision Making
+- Multi-Objective Optimization
+
+---
+
+## PPO (Proximal Policy Optimization)
+
+The reinforcement learning algorithm used in this project is PPO.
+
+### Why PPO?
+
+PPO is one of the most successful RL algorithms for continuous control tasks.
+
+Advantages:
+
+- Stable Training
+- Continuous Action Spaces
+- Efficient Learning
+- Strong Convergence Performance
+
+---
+
+## Marine Environmental APIs
+
+Environmental realism is achieved through:
 
 ### Open-Meteo Marine API
 
 Provides:
 
 - Ocean Currents
-- Wave Data
-- Sea Surface Conditions
+- Wave Height
+- Sea Conditions
 
 ### NOAA Marine Data
 
 Provides:
 
-- Ocean Forecast Data
-- Environmental Variables
+- Environmental Forecasts
+- Ocean Measurements
+
+These APIs make the simulation significantly more realistic.
 
 ---
 
 # Reinforcement Learning Framework
 
-## Why Reinforcement Learning?
+## How Reinforcement Learning Works
 
-Traditional control systems use predefined rules.
+The RL agent learns using trial-and-error interactions.
 
-Reinforcement Learning allows the AUV to learn optimal actions through interaction with the environment.
+### Observation
 
-The agent continuously improves by maximizing cumulative rewards.
-
----
-
-## PPO Algorithm
-
-This project uses:
-
-### Proximal Policy Optimization (PPO)
-
-PPO is one of the most widely used reinforcement learning algorithms for continuous control problems.
-
-Advantages:
-
-- Stable Training
-- Continuous Actions
-- Sample Efficiency
-- Robust Performance
-
----
-
-## Observation Space
-
-The observation vector contains:
+The agent observes:
 
 ```text
 Position Error
-Heading Error
 Velocity
-Ocean Current Information
-Wave Information
-Gas Sensor Measurements
-Temperature
-Energy Consumption
+Heading
+Ocean Currents
+Wave Data
+Sensor Measurements
+Energy Usage
 ```
 
-Total:
+### Action
 
-```text
-10-Dimensional Observation Vector
-```
-
----
-
-## Action Space
-
-The RL agent outputs:
+The agent outputs:
 
 ```text
 Thruster Command
 Rudder Command
 ```
 
-These continuous actions control vehicle movement.
+### Reward
+
+Rewards encourage:
+
+- Progress Toward Target
+- Energy Efficiency
+- Stability
+- Better Sensing Performance
+
+The agent continuously improves its policy by maximizing cumulative reward.
 
 ---
 
-## Neural Network Architecture
+# Neural Network Architecture
+
+The PPO controller uses an Actor-Critic architecture.
 
 ```text
 Observation Vector
-        │
-        ▼
-Dense Layer (128)
-        │
-       ReLU
-        │
-        ▼
-Dense Layer (128)
-        │
-       ReLU
-        │
- ┌──────┴────────────┐
- ▼                   ▼
-Critic          Actor
-(Value)       (Policy)
+         │
+         ▼
+   Dense Layer
+      128
+         │
+        ReLU
+         │
+         ▼
+   Dense Layer
+      128
+         │
+        ReLU
+         │
+ ┌───────┴────────┐
+ ▼                ▼
+Actor          Critic
+Policy      Value Function
 ```
 
-The actor generates control actions while the critic evaluates state quality.
+### Actor
+
+Generates control actions.
+
+### Critic
+
+Evaluates action quality.
+
+Together they learn optimal navigation behavior.
 
 ---
 
 # Sensor Modeling
 
-One major innovation of this project is realistic sensor modeling.
+One of the major innovations of this project is realistic sensor simulation.
 
-## IMU Model
+## IMU
 
 Provides:
 
@@ -361,7 +391,7 @@ Provides:
 
 ---
 
-## DVL Model
+## DVL
 
 Provides:
 
@@ -370,7 +400,7 @@ Provides:
 
 ---
 
-## Magnetometer Model
+## Magnetometer
 
 Provides:
 
@@ -379,138 +409,149 @@ Provides:
 
 ---
 
-## Depth Sensor Model
+## Depth Sensor
 
-Provides:
-
-- Underwater Depth Measurements
+Provides underwater depth measurements.
 
 ---
 
 ## MQ-2 Gas Sensor Digital Twin
 
-The project includes a physics-based MQ-2 sensor model.
-
-Features:
+Unlike simple simulations, this project models:
 
 - Heater Warm-Up Effects
+- Sensor Response Curves
 - Multi-Gas Sensitivity
 - Temperature Compensation
 - Humidity Compensation
-- Dynamic Response Modeling
 
-This significantly improves sim-to-real transfer capability.
+This improves realism and supports sim-to-real deployment.
 
 ---
 
-# Training Procedure
+# Training Workflow
 
 ## Step 1
 
 Initialize:
 
-- Vehicle Dynamics
-- Sensor Models
-- Ocean Conditions
+- Digital Twin
+- Sensors
+- Environmental Conditions
 
 ---
 
 ## Step 2
 
-Generate observation vector.
+Generate Observation Vector
+
+```text
+Vehicle States
++
+Environmental Data
++
+Sensor Measurements
+```
 
 ---
 
 ## Step 3
 
-Feed observations into PPO agent.
+Agent Generates Actions
+
+```text
+Thruster Output
+Rudder Output
+```
 
 ---
 
 ## Step 4
 
-Generate thruster and rudder actions.
+Apply Actions
+
+The digital twin updates vehicle motion.
 
 ---
 
 ## Step 5
 
-Apply actions inside the digital twin.
+Compute Reward
+
+Reward includes:
+
+- Navigation Progress
+- Energy Savings
+- Stability
+- Sensor Quality
 
 ---
 
 ## Step 6
 
-Calculate reward.
+Update PPO Policy
 
-Reward components:
-
-- Navigation Progress
-- Energy Efficiency
-- Stability
-- Sensing Performance
+The neural network weights are updated.
 
 ---
 
 ## Step 7
 
-Update PPO policy.
+Repeat Until Convergence
 
----
+Thousands of training episodes are performed.
 
-## Step 8
-
-Repeat until convergence.
+The agent gradually learns optimal navigation behavior.
 
 ---
 
 # Results
 
-The trained PPO agent successfully learned energy-aware navigation behavior.
+The trained PPO agent successfully learned energy-efficient navigation strategies.
 
 ---
 
-# Autonomous Navigation Trajectory
+## Autonomous Navigation Path
 
 <p align="center">
   <img src="Results/navigation_path.png" width="700">
 </p>
 
-Observations:
+### Observations
 
-- Successfully reached target waypoint
-- Stable navigation performance
-- Effective ocean current compensation
-- Smooth trajectory generation
+- Successfully reaches target waypoint
+- Smooth navigation trajectory
+- Effective current compensation
+- Stable control behavior
 
 ---
 
-# Navigation Convergence
+## Navigation Convergence
 
 <p align="center">
   <img src="Results/convergence.png" width="700">
 </p>
 
-Observations:
+### Observations
 
-- Distance to target continuously decreases
-- Stable convergence behavior
+- Distance-to-target decreases consistently
+- Fast convergence
 - Successful mission completion
 
 ---
 
-# Energy Consumption Profile
+## Energy Consumption
 
 <p align="center">
   <img src="Results/energy_consumption.png" width="700">
 </p>
 
-Observations:
+### Observations
 
-- Reduced propulsion effort
-- Efficient energy utilization
+- Lower energy usage
 - Improved mission endurance
-- Adaptive current exploitation
+- Efficient thruster utilization
+- Energy-aware control policy
 
 ---
 
@@ -530,11 +571,11 @@ Digital-Twin-RL-Control-for-REMUS100-AUV
 │   └── Remus_AUV_twin.slx
 │
 ├── Results/
-│   ├── Fig1_Top_Level_Architecture.png
-│   ├── Fig2_Digital_Twin_Architecture.png
-│   ├── Result_Fig1_Path.png
-│   ├── Result_Fig2_Energy.png
-│   └── Result_Fig3_Convergence.png
+│   ├── Top_Level_Architecture.png
+│   ├── Digital_Twin_Architecture.png
+│   ├── navigation_ath.png
+│   ├── energy_consumption.png
+│   └── convergence.png
 │
 ├── Docs/
 │   ├── Project_Report.pdf
@@ -552,28 +593,60 @@ Digital-Twin-RL-Control-for-REMUS100-AUV
 
 ---
 
+# Installation
+
+1. Install MATLAB R2024a or later
+2. Install Simulink
+3. Install Reinforcement Learning Toolbox
+4. Install Deep Learning Toolbox
+5. Clone the repository
+
+```bash
+git clone https://github.com/your-username/Energy-Aware-AUV-Control-Using-RL-and-Digital-Twin.git
+```
+
+---
+
+# Usage
+
+Open MATLAB and run:
+
+```matlab
+run.m
+```
+
+For evaluation:
+
+```matlab
+evaluate_and_plot.m
+```
+
+To modify the PPO agent:
+
+```matlab
+setupAgent.m
+```
+
+---
+
 # Future Improvements
 
 - Real AUV Deployment
 - NVIDIA Jetson Integration
 - Raspberry Pi Deployment
 - Sonar-Based Obstacle Avoidance
-- Multi-Agent AUV Swarms
-- Adaptive Ocean Current Estimation
+- Multi-Agent AUV Coordination
+- Adaptive Current Estimation
 - Real-Time Ocean Mapping
+- Swarm Intelligence
 - 3D Path Planning
-- Underwater Communication Integration
 
 ---
 
-# Patent
 
-This project contributed to a patent disclosure titled:
-
-**Energy-Aware Autonomous Underwater Vehicle Control Using Reinforcement Learning with Digital Twin and Real-Time Marine Environmental Data Integration**
-
----
 
 # Authors
 
-### Devanshi Das
+**Devanshi Das**  
+
+

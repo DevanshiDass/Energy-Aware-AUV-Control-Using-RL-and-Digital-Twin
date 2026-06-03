@@ -20,7 +20,7 @@
 - Digital Twin Architecture
 - Technologies Used
 - Reinforcement Learning Framework
-- Sensor Modeling
+- Digital Twin Sensor Layer
 - Training Workflow
 - Results
 - Project Structure
@@ -87,17 +87,100 @@ This project addresses all these challenges using a Digital Twin and Reinforceme
 
 # Key Features
 
-- REMUS 100 Digital Twin
-- PPO-Based Reinforcement Learning Controller
-- Energy-Aware Navigation
-- Ocean Current Compensation
-- Physics-Based Sensor Modeling
-- Real-Time Environmental Data Integration
-- Multi-Objective Reward Optimization
-- Continuous Action Control
-- Sim-to-Real Transfer Pipeline
-- MATLAB & Simulink Implementation
-- Marine Robotics Application
+## High-Fidelity Digital Twin
+
+A complete virtual representation of the REMUS 100 AUV was developed using MATLAB and Simulink. The digital twin simulates both vehicle behavior and environmental interactions, enabling safe and cost-effective reinforcement learning training.
+
+---
+
+## Real-Time Environmental Modeling
+
+Unlike conventional reinforcement learning environments that use static disturbances, this project incorporates real-world marine conditions through API-based environmental modeling.
+
+Files:
+
+```text
+Ocean_API_Block.m
+Weather_API_Block.m
+fetch_env_data.m
+```
+
+The environmental model incorporates:
+
+- Ocean Currents
+- Wave Conditions
+- Temperature
+- Humidity
+- Water Surface Conditions
+
+This creates a realistic training environment that better represents actual ocean operations.
+
+---
+
+## Physics-Based Sensor Simulation
+
+The digital twin contains dedicated models for multiple onboard sensors.
+
+Files:
+
+```text
+IMU_Block.m
+DVL_Block.m
+Depth_Block.m
+Magnetometer_Block.m
+MQ2_Block.m
+```
+
+The sensor layer generates realistic measurements including:
+
+- Vehicle Orientation
+- Angular Velocity
+- Underwater Velocity
+- Heading Information
+- Depth Measurements
+- Gas Concentration Levels
+
+This reduces the sim-to-real gap and improves deployment readiness.
+
+---
+
+## Reinforcement Learning Controller
+
+The vehicle controller is trained using Proximal Policy Optimization (PPO).
+
+Files:
+
+```text
+setupAgent.m
+run.m
+```
+
+The controller learns how to:
+
+- Navigate autonomously
+- Compensate for ocean currents
+- Reduce energy consumption
+- Maintain vehicle stability
+- Improve mission efficiency
+
+---
+
+## Automated Performance Evaluation
+
+After training, the learned policy is evaluated through automated simulation testing.
+
+Files:
+
+```text
+evaluate_and_plot.m
+```
+
+Performance metrics include:
+
+- Navigation Accuracy
+- Energy Consumption
+- Target Convergence
+- Mission Completion Time
 
 ---
 
@@ -377,55 +460,111 @@ Together they learn optimal navigation behavior.
 
 ---
 
-# Sensor Modeling
+# Digital Twin Sensor Layer
 
-One of the major innovations of this project is realistic sensor simulation.
+One of the most important contributions of this project is the development of realistic sensor models that mimic the behavior of physical sensors found on modern AUV platforms.
 
-## IMU
+The digital twin does not simply generate perfect measurements. Instead, it attempts to replicate how actual hardware behaves underwater.
 
-Provides:
+---
 
-- Acceleration
+## IMU Model
+
+File:
+
+```text
+IMU_Block.m
+```
+
+The Inertial Measurement Unit provides:
+
+- Linear Acceleration
 - Angular Velocity
-- Orientation
+- Vehicle Orientation
+
+The RL agent relies on IMU measurements to estimate vehicle motion and maintain stability.
 
 ---
 
-## DVL
+## DVL Model
 
-Provides:
+File:
 
-- Velocity Estimation
-- Position Tracking
+```text
+DVL_Block.m
+```
+
+The Doppler Velocity Log estimates vehicle velocity relative to the seabed.
+
+Outputs include:
+
+- Surge Velocity
+- Sway Velocity
+- Relative Motion Information
+
+The DVL helps the controller determine whether the vehicle is drifting due to currents.
 
 ---
 
-## Magnetometer
+## Magnetometer Model
 
-Provides:
+File:
 
-- Heading Information
+```text
+Magnetometer_Block.m
+```
+
+The magnetometer provides heading information.
+
+This sensor enables:
+
 - Direction Estimation
+- Course Correction
+- Heading Stabilization
 
 ---
 
-## Depth Sensor
+## Depth Sensor Model
 
-Provides underwater depth measurements.
+File:
+
+```text
+Depth_Block.m
+```
+
+The depth sensor continuously monitors underwater depth.
+
+This information is critical for:
+
+- Maintaining Operating Depth
+- Vertical Stability
+- Mission Safety
 
 ---
 
-## MQ-2 Gas Sensor Digital Twin
+## MQ-2 Gas Sensor Model
 
-Unlike simple simulations, this project models:
+Files:
+
+```text
+MQ2_Block.m
+MQ2_Sensor_Simple.m
+```
+
+A physics-inspired gas sensor model was implemented to simulate realistic gas concentration measurements.
+
+Features include:
 
 - Heater Warm-Up Effects
-- Sensor Response Curves
+- Environmental Compensation
 - Multi-Gas Sensitivity
-- Temperature Compensation
-- Humidity Compensation
+- Dynamic Sensor Response
 
-This improves realism and supports sim-to-real deployment.
+This sensor can support future applications such as:
+
+- Leak Detection
+- Environmental Monitoring
+- Underwater Pollution Tracking
 
 ---
 
@@ -505,53 +644,96 @@ The agent gradually learns optimal navigation behavior.
 
 ---
 
-# Results
+# Results and Performance Analysis
 
-The trained PPO agent successfully learned energy-efficient navigation strategies.
+The trained PPO agent was evaluated in a mission scenario where the REMUS 100 AUV was required to travel from the origin point to a target waypoint while experiencing simulated ocean disturbances.
+
+Mission Parameters:
+
+```text
+Start Position  : (0,0)
+Target Position : (50,50)
+Environment     : Ocean Current Disturbances
+Controller      : PPO Reinforcement Learning Agent
+```
 
 ---
 
-## Autonomous Navigation Path
+## Navigation Performance
 
 <p align="center">
   <img src="Results/navigation_path.png" width="700">
 </p>
 
-### Observations
+### Analysis
 
-- Successfully reaches target waypoint
-- Smooth navigation trajectory
-- Effective current compensation
-- Stable control behavior
+The trajectory demonstrates that the RL agent successfully reached the target waypoint while compensating for ocean current disturbances.
+
+Key observations:
+
+- Successful target acquisition
+- Smooth trajectory generation
+- Stable path corrections
+- Drift-aware navigation
+
+Unlike traditional controllers that fight currents directly, the learned policy intelligently exploits environmental forces to maintain efficient motion.
 
 ---
 
-## Navigation Convergence
+## Convergence Performance
 
 <p align="center">
   <img src="Results/convergence.png" width="700">
 </p>
 
-### Observations
+### Analysis
 
-- Distance-to-target decreases consistently
-- Fast convergence
+The convergence graph illustrates the reduction in distance-to-target throughout the mission.
+
+Observations:
+
+- Monotonic reduction in target distance
+- Stable convergence behavior
+- No oscillatory divergence
 - Successful mission completion
+
+The distance decreases from approximately 70 meters to near zero, indicating reliable navigation performance.
 
 ---
 
-## Energy Consumption
+## Energy Consumption Analysis
 
 <p align="center">
   <img src="Results/energy_consumption.png" width="700">
 </p>
 
-### Observations
+### Analysis
 
-- Lower energy usage
-- Improved mission endurance
-- Efficient thruster utilization
-- Energy-aware control policy
+Energy efficiency was a primary optimization objective.
+
+Observations:
+
+- Controlled energy expenditure
+- No unnecessary actuator activity
+- Efficient propulsion usage
+- Reduced energy wastage after target acquisition
+
+The learned controller demonstrates awareness of energy costs and actively minimizes unnecessary control actions.
+
+---
+
+## Overall Performance Summary
+
+| Metric | Performance |
+|---|---|
+| Target Reached | Yes |
+| Navigation Stability | High |
+| Current Compensation | Successful |
+| Energy Optimization | Successful |
+| Mission Completion | Successful |
+| Sim-to-Real Readiness | Improved |
+
+The results demonstrate that the Digital Twin and PPO framework can successfully learn energy-efficient navigation policies while maintaining robust performance in disturbed marine environments.
 
 ---
 
@@ -565,15 +747,22 @@ Digital-Twin-RL-Control-for-REMUS100-AUV
 │   ├── setupAgent.m
 │   ├── evaluate_and_plot.m
 │   ├── fetch_env_data.m
-│   └── Sensor Models
+│   ├── Ocean_API_Block.m
+│   ├── Weather_API_Block.m
+│   ├── IMU_Block.m
+│   ├── DVL_Block.m
+│   ├── Depth_Block.m
+│   ├── Magnetometer_Block.m
+│   ├── MQ2_Block.m
+│   └── MQ2_Sensor_Simple.m
 │
 ├── Simulink/
 │   └── Remus_AUV_twin.slx
 │
 ├── Results/
 │   ├── Top_Level_Architecture.png
-│   ├── Digital_Twin_Architecture.png
-│   ├── navigation_ath.png
+│   ├── Digital_Twin_Architecture.jpg
+│   ├── navigation_path.png
 │   ├── energy_consumption.png
 │   └── convergence.png
 │
@@ -643,10 +832,6 @@ setupAgent.m
 
 ---
 
-
-
 # Authors
 
-**Devanshi Das**  
-
-
+**Devanshi Das**

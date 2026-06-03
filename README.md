@@ -143,7 +143,7 @@ The architecture operates as a closed feedback loop where the reinforcement lear
 The digital twin serves as a virtual representation of the REMUS 100 AUV.
 
 <p align="center">
-  <img src="Results/Digital_Twin_Architecture.png" width="1000">
+  <img src="Results/Digital_Twin_Architecture.jpg" width="1000">
 </p>
 
 The digital twin includes:
